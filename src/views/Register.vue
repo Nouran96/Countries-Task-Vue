@@ -1,14 +1,13 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-  </div>
+  <h1>Register page</h1>
+  <AuthForm />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import AuthForm from "@/components/AuthForm.vue";
 
 export default defineComponent({
-  name: "Home",
-  components: {},
+  components: { AuthForm },
 });
 </script>
