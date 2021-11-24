@@ -102,3 +102,17 @@ export default {
   components: {},
 };
 </script>
+
+<style lang="scss">
+@import "@/styles/quasar.variables.scss";
+
+html {
+  min-height: 100vh;
+  background: $primary;
+
+  .logo {
+    height: 140px;
+    max-width: 150px;
+  }
+}
+</style>
