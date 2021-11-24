@@ -1,12 +1,13 @@
 <template>
-  <div class="home">Home</div>
+  <CountriesTable />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import CountriesTable from "@/components/CountriesTable.vue";
 
 export default defineComponent({
   name: "Home",
-  components: {},
+  components: { CountriesTable },
 });
 </script>

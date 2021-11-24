@@ -4,6 +4,7 @@
     :disable="disable"
     :loading="loading"
     :label="label"
+    :icon="icon"
     :type="type"
     :color="color"
   />
@@ -15,6 +16,7 @@ import { defineComponent } from "@vue/runtime-core";
 export default defineComponent({
   props: {
     label: { type: String, required: true, default: "Submit" },
+    icon: { type: String },
     disable: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
     color: { type: String, default: "primary" },
@@ -30,3 +32,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.q-icon.on-left {
+  margin-right: 8px;
+  margin-left: -4px;
+}
+</style>

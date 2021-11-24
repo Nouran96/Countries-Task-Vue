@@ -23,6 +23,7 @@ export default createStore({
     auth: {
       token: getCookie("token"),
     },
+    countries: [],
     shared: {
       isLoading: false,
       snackbar: {
@@ -49,6 +50,12 @@ export default createStore({
 
     onLogout(state) {
       state.auth.token = null;
+
+      router.push({ name: "login" });
+    },
+
+    addCountries(state, payload) {
+      state.countries = payload;
     },
 
     setIsLoading(state, isLoading) {
@@ -67,6 +74,12 @@ export default createStore({
       await axiosInstance.post("cognito-register", payload);
 
       context.dispatch("onLogin", payload);
+    },
+
+    async getAllCountries(context) {
+      const response = await axiosInstance.get("country");
+
+      context.commit("addCountries", response.data.data);
     },
   },
   modules: {},

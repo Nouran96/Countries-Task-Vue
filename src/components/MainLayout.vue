@@ -18,11 +18,24 @@
             no-native-menu
             class="logo"
           />
+          <q-btn flat dense class="q-mx-xs">Home</q-btn>
         </q-toolbar-title>
+
+        <q-space></q-space>
+
+        <TheButton label="Add Country" icon="add" />
+
+        <q-btn flat class="q-ml-xs" @click="onLogout">Logout</q-btn>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" side="left" behavior="mobile" elevated>
+    <q-drawer
+      v-if="isMobile"
+      v-model="leftDrawerOpen"
+      side="left"
+      behavior="mobile"
+      elevated
+    >
       <!-- drawer content -->
     </q-drawer>
 
@@ -40,11 +53,15 @@
 
 <script lang="ts">
 import { useQuasar } from "quasar";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
+import TheButton from "@/components/controls/TheButton.vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
+  components: { TheButton },
   setup() {
     const $q = useQuasar();
+    const store = useStore();
 
     const leftDrawerOpen = ref(false);
 
@@ -58,6 +75,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      onLogout: () => store.commit("onLogout"),
     };
   },
 });
