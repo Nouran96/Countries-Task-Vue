@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/network";
+import router from "@/router";
 import { createStore } from "vuex";
 
 export const getCookie = (c_name: string): string | null => {
@@ -22,6 +23,13 @@ export default createStore({
     auth: {
       token: getCookie("token"),
     },
+    shared: {
+      isLoading: false,
+      snackbar: {
+        show: false,
+        message: null,
+      },
+    },
   },
   mutations: {
     addLoginData(state, payload) {
@@ -29,10 +37,22 @@ export default createStore({
       document.cookie = authCookie;
 
       state.auth.token = payload.token;
+
+      // Check if there is a redirect url
+      const redirectQueryParam = router.currentRoute.value.query
+        ?.redirect as string;
+
+      router.push({
+        path: redirectQueryParam ? redirectQueryParam : "/",
+      });
     },
 
     onLogout(state) {
       state.auth.token = null;
+    },
+
+    setIsLoading(state, isLoading) {
+      state.shared.isLoading = isLoading;
     },
   },
   actions: {

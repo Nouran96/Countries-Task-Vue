@@ -8,22 +8,22 @@ export const requestHandler = (req: AxiosRequestConfig): AxiosRequestConfig => {
     req.headers["Authorization"] = `Bearer ${token}`;
   }
 
-  //   store.dispatch(showLoader());
+  store.commit("setIsLoading", true);
 
   return req;
 };
 
-export const successHandler = (res: AxiosResponse) => {
-  //   store.dispatch(hideLoader());
+export const successHandler = (res: AxiosResponse): AxiosResponse => {
+  store.commit("setIsLoading", false);
 
   return res;
 };
 
-export const errorHandler = (error: AxiosError) => {
-  //   store.dispatch(hideLoader());
+export const errorHandler = (error: AxiosError): Promise<AxiosError> => {
+  store.commit("setIsLoading", false);
 
   if (error.response?.status === 401) {
-    // store.dispatch(addToken(null));
+    store.commit("onLogout");
   }
 
   //   store.dispatch(

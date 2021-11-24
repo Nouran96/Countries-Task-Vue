@@ -2,6 +2,7 @@
   <q-btn
     no-caps
     :disable="disable"
+    :loading="loading"
     :label="label"
     :type="type"
     :color="color"
@@ -15,6 +16,7 @@ export default defineComponent({
   props: {
     label: { type: String, required: true, default: "Submit" },
     disable: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
     color: { type: String, default: "primary" },
     type: {
       type: String,

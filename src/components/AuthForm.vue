@@ -12,7 +12,7 @@
       autocomplete="off"
       greedy
       @submit="onSubmit"
-      class="q-gutter-md form"
+      class="q-gutter-y-md form"
     >
       <TheInputField
         :model-value="model.email"
@@ -40,7 +40,12 @@
       />
 
       <div class="row justify-center q-my-md">
-        <TheButton :disable="!isValidForm" label="Submit" type="submit" />
+        <TheButton
+          :loading="isLoading"
+          :disable="!isValidForm"
+          label="Submit"
+          type="submit"
+        />
       </div>
 
       <div v-if="isLogin" class="redirectLink">
@@ -58,7 +63,7 @@
 
 <script lang="ts">
 import { useQuasar } from "quasar";
-import { defineComponent, ref, reactive, watch } from "vue";
+import { defineComponent, ref, reactive, watch, computed } from "vue";
 import TheInputField from "./controls/TheInputField.vue";
 import TheButton from "./controls/TheButton.vue";
 import {
@@ -67,6 +72,7 @@ import {
   isMinLength,
   isSamePassword,
 } from "@/utils/Validators";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: { TheInputField, TheButton },
@@ -75,6 +81,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const $q = useQuasar();
+    const store = useStore();
 
     const myForm = ref();
     const isValidForm = ref(false);
@@ -84,14 +91,7 @@ export default defineComponent({
       confirmPassword: null,
     });
 
-    // const validateForm = () => {
-    //   (myForm.value as { validate: () => Promise<boolean> })
-    //     .validate()
-    //     .then((success: boolean) => {
-    //       isValidForm.value = success;
-    //       myForm.value.resetValidation();
-    //     });
-    // };
+    const isLoading = computed(() => store.state.shared.isLoading);
 
     watch(model, () => {
       if (
@@ -105,18 +105,9 @@ export default defineComponent({
       }
     });
 
-    // onMounted(() => {
-    //   console.log(
-    //     myForm.value
-    //       .getValidationComponents()
-    //       .map((comp: any) => console.log(comp.errors))
-    //   );
-
-    //   validateForm();
-    // });
-
     return {
       myForm,
+      isLoading,
       isValidForm,
       model,
       isValidEmail,
@@ -127,12 +118,12 @@ export default defineComponent({
       onSubmit() {
         const { confirmPassword, ...data } = model;
         emit("submitForm", data);
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          message: "Submitted",
-        });
+        // $q.notify({
+        //   color: "green-4",
+        //   textColor: "white",
+        //   icon: "cloud_done",
+        //   message: "Submitted",
+        // });
         //   $q.notify({
         //     color: "red-5",
         //     textColor: "white",
@@ -172,10 +163,11 @@ export default defineComponent({
     margin: 0 0 1rem;
     font-weight: bold;
   }
-
   .logo {
     display: block;
     margin: auto;
+    height: 140px;
+    max-width: 150px;
   }
 
   .form {
@@ -184,10 +176,6 @@ export default defineComponent({
 
     @media (max-width: 750px) {
       width: 90%;
-    }
-
-    label {
-      margin-left: 0;
     }
   }
 }
