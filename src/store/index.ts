@@ -27,9 +27,10 @@ export default createStore({
     selectedCountry: {},
     shared: {
       isLoading: false,
-      snackbar: {
+      notification: {
         show: false,
         message: null,
+        color: null,
       },
     },
   },
@@ -50,6 +51,8 @@ export default createStore({
     },
 
     onLogout(state) {
+      document.cookie = "token=;";
+
       state.auth.token = null;
       state.countries = [];
       state.selectedCountry = {};
@@ -67,6 +70,18 @@ export default createStore({
 
     setIsLoading(state, isLoading) {
       state.shared.isLoading = isLoading;
+    },
+
+    openNotification(state, payload) {
+      state.shared.notification = {
+        show: true,
+        message: payload.message,
+        color: payload.color || "negative",
+      };
+    },
+
+    dismissNotification(state) {
+      state.shared.notification = { show: false, message: null, color: null };
     },
   },
   actions: {

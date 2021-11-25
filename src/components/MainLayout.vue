@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header reveal elevated class="bg-white text-accent">
+    <q-header v-if="token" reveal elevated class="bg-white text-accent">
       <q-toolbar>
         <q-btn
           v-if="isMobile"
@@ -30,7 +30,7 @@
     </q-header>
 
     <q-drawer
-      v-if="isMobile"
+      v-if="token && isMobile"
       v-model="leftDrawerOpen"
       side="left"
       behavior="mobile"
@@ -65,7 +65,7 @@
       <router-view />
     </q-page-container>
 
-    <q-footer reveal elevated class="bg-white text-accent">
+    <q-footer v-if="token" reveal elevated class="bg-white text-accent">
       <span class="q-py-sm block text-center text-bold"
         >Copyrights &copy; 2021 | Nouran Samy</span
       >
@@ -86,6 +86,7 @@ export default defineComponent({
     const store = useStore();
 
     const leftDrawerOpen = ref(false);
+    const token = computed(() => store.state.auth.token);
 
     const isMobile = computed(() => {
       return $q.screen.lt.sm;
@@ -94,6 +95,7 @@ export default defineComponent({
     return {
       leftDrawerOpen,
       isMobile,
+      token,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

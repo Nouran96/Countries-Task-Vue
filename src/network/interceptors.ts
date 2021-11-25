@@ -26,11 +26,10 @@ export const errorHandler = (error: AxiosError): Promise<AxiosError> => {
     store.commit("onLogout");
   }
 
-  //   store.dispatch(
-  //     showSnackbar(
-  //       error.response?.data.message || "Check your connection and Try again"
-  //     )
-  //   );
+  store.commit("openNotification", {
+    message:
+      error.response?.data.message || "Check your connection and Try again",
+  });
 
   return Promise.reject({ ...error });
 };
