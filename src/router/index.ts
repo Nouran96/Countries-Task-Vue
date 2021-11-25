@@ -31,6 +31,30 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/:name",
+    name: "details",
+    component: () => import("@/views/Details.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/edit/:name",
+    name: "edit",
+    component: () => import("@/views/EditCountry.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/add",
+    name: "add",
+    component: () => import("@/views/AddCountry.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -38,6 +62,7 @@ const router = createRouter({
   routes,
 });
 
+// Global guard to check authentication
 router.beforeEach((to, from, next) => {
   const token = store.state.auth.token;
 

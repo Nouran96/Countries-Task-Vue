@@ -18,7 +18,7 @@
             no-native-menu
             class="logo"
           />
-          <q-btn flat dense class="q-mx-xs">Home</q-btn>
+          <q-btn flat dense class="q-mx-xs" to="/">Home</q-btn>
         </q-toolbar-title>
 
         <q-space></q-space>

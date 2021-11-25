@@ -24,6 +24,7 @@ export default createStore({
       token: getCookie("token"),
     },
     countries: [],
+    selectedCountry: {},
     shared: {
       isLoading: false,
       snackbar: {
@@ -50,12 +51,18 @@ export default createStore({
 
     onLogout(state) {
       state.auth.token = null;
+      state.countries = [];
+      state.selectedCountry = {};
 
       router.push({ name: "login" });
     },
 
     addCountries(state, payload) {
       state.countries = payload;
+    },
+
+    addSelectedCountry(state, payload) {
+      state.selectedCountry = payload;
     },
 
     setIsLoading(state, isLoading) {
@@ -80,6 +87,12 @@ export default createStore({
       const response = await axiosInstance.get("country");
 
       context.commit("addCountries", response.data.data);
+    },
+
+    async getCountry(context, payload) {
+      const response = await axiosInstance.get(`country/${payload.name || ""}`);
+
+      context.commit("addSelectedCountry", response.data.data);
     },
   },
   modules: {},

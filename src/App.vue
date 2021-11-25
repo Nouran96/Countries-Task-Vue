@@ -21,6 +21,6 @@ export default {
 
 html {
   min-height: 100vh;
-  background: $primary;
+  background: $primary fixed;
 }
 </style>

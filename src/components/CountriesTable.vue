@@ -11,20 +11,10 @@
       :filter-method="filterMethod"
       no-results-label="The filter didn't match any results"
       row-key="name"
-      flat
       :pagination="{ rowsPerPage: 10 }"
       :rows-per-page-options="[5, 10, 20]"
       @row-click="goToDetails"
     >
-      <!-- Header labels Override -->
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.label }}
-          </q-th>
-        </q-tr>
-      </template>
-
       <!-- Actions Column -->
       <template #body-cell-actions="props">
         <q-td class="text-center">
@@ -35,7 +25,7 @@
             color="accent"
             field="edit"
             icon="edit"
-            @click.stop="goToEdit(props.row)"
+            :to="`/edit/${props.row.name}`"
           >
             <q-tooltip :disable="$q.platform.is.mobile" v-close-popup
               >Edit</q-tooltip
@@ -58,13 +48,6 @@
           </template>
         </q-input>
       </template>
-
-      <!-- <template v-slot:loading>
-        <div class="full-width row flex-center text-accent q-gutter-sm">
-          <q-icon size="2em" name="sentiment_dissatisfied" />
-          <span> Loading... </span>
-        </div>
-      </template> -->
 
       <!-- No data customization -->
       <template v-slot:no-data="{ message }">
@@ -89,7 +72,7 @@
 
 <script lang="ts">
 import { Country } from "@/models/Countries";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -152,22 +135,19 @@ export default defineComponent({
 
     const getAllCountries = () => store.dispatch("getAllCountries");
 
-    const goToEdit = (row: Country) => {
-      console.log(row);
-    };
-
     const goToDetails = (e: PointerEvent, row: Country) => {
-      console.log(row, e);
+      router.push({ name: "details", params: { name: row.name } });
     };
 
     getAllCountries();
+
+    onUnmounted(() => store.commit("addCountries", []));
 
     return {
       columns,
       rows,
       filter,
       filterMethod,
-      goToEdit,
       goToDetails,
       isLoading,
       //   pagination,
@@ -181,10 +161,14 @@ export default defineComponent({
 @import "@/styles/quasar.variables.scss";
 
 .table {
-  .q-table__progress .q-linear-progress {
+  .q-table__progress .q-linear-progress,
+  .q-table__control .q-btn--dense.q-btn--round,
+  .q-field__control-container .q-field__native span,
+  .q-field__marginal {
     color: #fff !important;
   }
 
+  .q-table__bottom:not(.q-table__bottom--nodata),
   thead tr:first-child th {
     /* bg color is important for th; just specify one */
     background-color: $accent;
