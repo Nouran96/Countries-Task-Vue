@@ -18,12 +18,12 @@
             no-native-menu
             class="logo"
           />
-          <q-btn flat dense class="q-mx-xs" to="/">Home</q-btn>
+          <q-btn v-if="!isMobile" flat dense class="q-mx-xs" to="/">Home</q-btn>
         </q-toolbar-title>
 
         <q-space></q-space>
 
-        <TheButton label="Add Country" icon="add" />
+        <TheButton v-if="!isMobile" label="Add Country" icon="add" />
 
         <q-btn flat class="q-ml-xs" @click="onLogout">Logout</q-btn>
       </q-toolbar>
@@ -36,7 +36,29 @@
       behavior="mobile"
       elevated
     >
-      <!-- drawer content -->
+      <div class="q-ma-sm column q-col-gutter-md">
+        <div class="col column items-end">
+          <q-btn
+            round
+            color="primary"
+            size="sm"
+            icon="close"
+            @click="hideLeftDrawer"
+          >
+            <q-tooltip :disable="$q.platform.is.mobile" v-close-popup
+              >Close</q-tooltip
+            >
+          </q-btn>
+        </div>
+
+        <div class="col">
+          <q-btn flat dense class="q-mx-xs text-accent" to="/">Home</q-btn>
+        </div>
+
+        <div class="col">
+          <TheButton label="Add Country" icon="add" />
+        </div>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -74,6 +96,9 @@ export default defineComponent({
       isMobile,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+      hideLeftDrawer() {
+        leftDrawerOpen.value = false;
       },
       onLogout: () => store.commit("onLogout"),
     };
