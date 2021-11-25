@@ -7,6 +7,7 @@
     :icon="icon"
     :type="type"
     :color="color"
+    @click="$emit('click')"
   />
 </template>
 
@@ -30,6 +31,7 @@ export default defineComponent({
       },
     },
   },
+  emits: ["click"],
 });
 </script>
 

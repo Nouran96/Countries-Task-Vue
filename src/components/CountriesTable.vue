@@ -25,7 +25,7 @@
             color="accent"
             field="edit"
             icon="edit"
-            :to="`/edit/${props.row.name}`"
+            @click.stop="$router.push({ path: `/edit/${props.row.name}` })"
           >
             <q-tooltip :disable="$q.platform.is.mobile" v-close-popup
               >Edit</q-tooltip

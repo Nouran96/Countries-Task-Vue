@@ -118,18 +118,6 @@ export default defineComponent({
       onSubmit() {
         const { confirmPassword, ...data } = model;
         emit("submitForm", data);
-        // $q.notify({
-        //   color: "green-4",
-        //   textColor: "white",
-        //   icon: "cloud_done",
-        //   message: "Submitted",
-        // });
-        //   $q.notify({
-        //     color: "red-5",
-        //     textColor: "white",
-        //     icon: "warning",
-        //     message: "You need to accept the license and terms first",
-        //   });
       },
     };
   },

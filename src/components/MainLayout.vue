@@ -23,7 +23,12 @@
 
         <q-space></q-space>
 
-        <TheButton v-if="!isMobile" label="Add Country" icon="add" />
+        <TheButton
+          @click="$router.push('/add')"
+          v-if="!isMobile"
+          label="Add Country"
+          icon="add"
+        />
 
         <q-btn flat class="q-ml-xs" @click="onLogout">Logout</q-btn>
       </q-toolbar>
@@ -56,7 +61,11 @@
         </div>
 
         <div class="col">
-          <TheButton label="Add Country" icon="add" />
+          <TheButton
+            @click="$router.push('/add')"
+            label="Add Country"
+            icon="add"
+          />
         </div>
       </div>
     </q-drawer>

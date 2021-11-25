@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/network";
 import router from "@/router";
-import { createStore } from "vuex";
+import { createStore, createLogger } from "vuex";
 
 export const getCookie = (c_name: string): string | null => {
   if (document.cookie.length > 0) {
@@ -57,7 +57,10 @@ export default createStore({
       state.countries = [];
       state.selectedCountry = {};
 
-      router.push({ name: "login" });
+      router.push({
+        name: "login",
+        query: { redirect: router.currentRoute.value.fullPath },
+      });
     },
 
     addCountries(state, payload) {
@@ -111,4 +114,5 @@ export default createStore({
     },
   },
   modules: {},
+  plugins: [createLogger()],
 });

@@ -78,8 +78,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import "@/styles/quasar.variables.scss";
+
 .container {
-  height: calc(100vh - 8.3rem);
+  height: $fullHeight;
 }
 </style>
