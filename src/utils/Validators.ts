@@ -24,3 +24,12 @@ export const isSamePassword = (
 ): boolean | string => {
   return (val && password && val === password) || `Passwords not matching`;
 };
+
+export const isNumbersOnly = (val: string): boolean | string => {
+  const numbersRegex = /^[0-9]*$/;
+  const notEmpty = val && val.trim();
+
+  return (
+    (notEmpty && numbersRegex.test(val.trim())) || "Should be only numbers"
+  );
+};

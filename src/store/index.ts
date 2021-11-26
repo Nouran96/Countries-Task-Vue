@@ -103,6 +103,12 @@ export default createStore({
 
       router.push({ name: "details", params: { name } });
     },
+
+    async addCountry(context, payload) {
+      await axiosInstance.post(`country`, payload);
+
+      router.push({ name: "details", params: { name: payload.name } });
+    },
   },
   modules: {},
   plugins: [createLogger()],

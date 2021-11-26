@@ -29,14 +29,14 @@
               :model-value="model.population"
               @update:model-value="model.population = $event"
               label="Population"
-              :rules="[isRequired]"
+              :rules="[isRequired, isNumbersOnly]"
             />
 
             <TheInputField
               :model-value="model.numberOfStates"
               @update:model-value="model.numberOfStates = $event"
               label="Number of states"
-              :rules="[isRequired]"
+              :rules="[isRequired, isNumbersOnly]"
             />
 
             <div class="row justify-center q-gutter-sm q-my-md">
@@ -70,7 +70,7 @@
 import { defineComponent, ref, watch, computed, onUnmounted } from "vue";
 import TheInputField from "./controls/TheInputField.vue";
 import TheButton from "./controls/TheButton.vue";
-import { isRequired } from "@/utils/Validators";
+import { isRequired, isNumbersOnly } from "@/utils/Validators";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 
@@ -107,17 +107,21 @@ export default defineComponent({
 
     onUnmounted(() => store.commit("addSelectedCountry", {}));
 
-    watch(model, () => {
-      if (
-        model.value.name &&
-        model.value.population &&
-        model.value.numberOfStates
-      ) {
-        isValidForm.value = true;
-      } else {
-        isValidForm.value = false;
-      }
-    });
+    watch(
+      model,
+      () => {
+        if (
+          model.value.name &&
+          model.value.population &&
+          model.value.numberOfStates
+        ) {
+          isValidForm.value = true;
+        } else {
+          isValidForm.value = false;
+        }
+      },
+      { deep: true }
+    );
 
     watch(country, () => {
       if (Object.keys(country.value).length) {
@@ -131,6 +135,7 @@ export default defineComponent({
       isValidForm,
       model,
       isRequired,
+      isNumbersOnly,
       country,
       emptyCountry,
       submittingForm,
