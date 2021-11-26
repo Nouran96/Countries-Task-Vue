@@ -1,6 +1,6 @@
 <template>
   <div class="container row items-center justify-center">
-    <div class="col-9 col-sm-6 col-md-5 col-lg-3">
+    <div class="col-10 col-sm-6 col-md-5 col-lg-3">
       <AuthForm @submitForm="login" :isLogin="true" />
     </div>
   </div>

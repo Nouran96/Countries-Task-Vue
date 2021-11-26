@@ -7,6 +7,7 @@
     :icon="icon"
     :type="type"
     :color="color"
+    :text-color="textColor"
     @click="$emit('click')"
   />
 </template>
@@ -18,6 +19,7 @@ export default defineComponent({
   props: {
     label: { type: String, required: true, default: "Submit" },
     icon: { type: String },
+    textColor: { type: String, default: "white" },
     disable: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
     color: { type: String, default: "primary" },

@@ -9,7 +9,7 @@ export const isValidEmail = (val: string): boolean | string => {
 };
 
 export const isRequired = (val: string | null): boolean | string => {
-  return (val && val.length > 0) || "Required";
+  return (val && val.toString().trim().length > 0) || "Required";
 };
 
 export const isMinLength = (val: string, length: number): boolean | string => {

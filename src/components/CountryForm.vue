@@ -1,62 +1,68 @@
 <template>
   <div class="q-ma-md row items-center justify-center container">
-    <transition
-      appear
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-    >
-      <q-card class="q-pa-lg card col-6">
-        <h5 class="greeting" v-if="!isLoading">
-          {{ emptyCountry ? "Add Country" : `Edit "${country.name}"` }}
-        </h5>
-        <q-form
-          ref="myForm"
-          autocomplete="off"
-          greedy
-          @submit="onSubmit"
-          class="q-gutter-y-md form"
-        >
-          <TheInputField
-            :disable="!emptyCountry"
-            :model-value="model.name"
-            @update:model-value="model.name = $event"
-            label="Name"
-            :rules="[isRequired]"
-          />
-
-          <TheInputField
-            :model-value="model.population"
-            @update:model-value="model.population = $event"
-            label="Population"
-            :rules="[isRequired]"
-          />
-
-          <TheInputField
-            :model-value="model.numberOfStates"
-            @update:model-value="model.numberOfStates = $event"
-            label="Number of states"
-            :rules="[isRequired]"
-          />
-
-          <div class="row justify-center q-my-md">
-            <TheButton
-              :loading="isLoading"
-              :disable="!isValidForm"
-              label="Submit"
-              type="submit"
+    <div class="col-10 col-sm-6 col-md-5 col-lg-3">
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <q-card class="q-pa-lg card col-6">
+          <h5 class="greeting" v-if="!isLoading">
+            {{ emptyCountry ? "Add Country" : `Edit "${country.name}"` }}
+          </h5>
+          <q-form
+            ref="myForm"
+            autocomplete="off"
+            greedy
+            @submit="onSubmit"
+            class="q-gutter-y-md form"
+          >
+            <TheInputField
+              :disable="!emptyCountry"
+              :model-value="model.name"
+              @update:model-value="model.name = $event"
+              label="Name"
+              :rules="[isRequired]"
             />
 
-            <TheButton
-              color="transparent"
-              label="Cancel"
-              @click="$router.back()"
+            <TheInputField
+              :model-value="model.population"
+              @update:model-value="model.population = $event"
+              label="Population"
+              :rules="[isRequired]"
             />
-          </div>
-        </q-form>
-      </q-card>
-    </transition>
 
-    <q-inner-loading :showing="isLoading" color="accent" />
+            <TheInputField
+              :model-value="model.numberOfStates"
+              @update:model-value="model.numberOfStates = $event"
+              label="Number of states"
+              :rules="[isRequired]"
+            />
+
+            <div class="row justify-center q-gutter-sm q-my-md">
+              <TheButton
+                :loading="isLoading && submittingForm"
+                :disable="!isValidForm"
+                label="Submit"
+                type="submit"
+              />
+
+              <TheButton
+                color="transparent"
+                label="Cancel"
+                textColor="black"
+                @click="$router.back()"
+              />
+            </div>
+          </q-form>
+        </q-card>
+      </transition>
+    </div>
+
+    <q-inner-loading
+      :showing="$route.params.name && emptyCountry && isLoading"
+      color="accent"
+    />
   </div>
 </template>
 
@@ -78,6 +84,7 @@ export default defineComponent({
     const route = useRoute();
 
     const myForm = ref();
+    const submittingForm = ref(false);
     const isValidForm = ref(false);
     const model = ref({
       name: null,
@@ -126,9 +133,18 @@ export default defineComponent({
       isRequired,
       country,
       emptyCountry,
+      submittingForm,
 
       onSubmit() {
-        emit("submitForm", model);
+        const payload = {
+          ...model.value,
+          population: Number(model.value.population),
+          numberOfStates: Number(model.value.numberOfStates),
+        };
+
+        submittingForm.value = true;
+
+        emit("submitForm", payload);
       },
     };
   },
@@ -139,7 +155,6 @@ export default defineComponent({
 @import "@/styles/quasar.variables.scss";
 .container {
   height: $fullHeight;
-
   .card {
     margin: 1rem 0;
     border-radius: 7px;

@@ -1,4 +1,4 @@
-import { Notify } from "quasar";
+import { Notify, Cookies } from "quasar";
 import "./styles/quasar.scss";
 import "@quasar/extras/roboto-font/roboto-font.css";
 import "@quasar/extras/material-icons/material-icons.css";
@@ -8,5 +8,5 @@ export default {
   config: {
     supportTS: true,
   },
-  plugins: { Notify },
+  plugins: { Notify, Cookies },
 };

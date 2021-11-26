@@ -1,27 +1,12 @@
 import { axiosInstance } from "@/network";
 import router from "@/router";
 import { createStore, createLogger } from "vuex";
-
-export const getCookie = (c_name: string): string | null => {
-  if (document.cookie.length > 0) {
-    let c_start = document.cookie.indexOf(c_name + "=");
-    if (c_start != -1) {
-      c_start = c_start + c_name.length + 1;
-      let c_end = document.cookie.indexOf(";", c_start);
-      if (c_end == -1) {
-        c_end = document.cookie.length;
-      }
-      return unescape(document.cookie.substring(c_start, c_end));
-    }
-  }
-
-  return null;
-};
+import { Cookies } from "quasar";
 
 export default createStore({
   state: {
     auth: {
-      token: getCookie("token"),
+      token: Cookies.get("token") || null,
     },
     countries: [],
     selectedCountry: {},
@@ -36,8 +21,7 @@ export default createStore({
   },
   mutations: {
     addLoginData(state, payload) {
-      const authCookie = `token=${payload.token};`;
-      document.cookie = authCookie;
+      Cookies.set("token", payload.token);
 
       state.auth.token = payload.token;
 
@@ -51,7 +35,7 @@ export default createStore({
     },
 
     onLogout(state) {
-      document.cookie = "token=;";
+      Cookies.remove("token");
 
       state.auth.token = null;
       state.countries = [];
@@ -111,6 +95,13 @@ export default createStore({
       const response = await axiosInstance.get(`country/${payload.name || ""}`);
 
       context.commit("addSelectedCountry", response.data.data);
+    },
+
+    async editCountry(context, payload) {
+      const { name, ...data } = payload;
+      await axiosInstance.put(`country/${name || ""}`, data);
+
+      router.push({ name: "details", params: { name } });
     },
   },
   modules: {},
