@@ -23,7 +23,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .container {
   min-height: 100vh;
 }

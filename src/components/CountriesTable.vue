@@ -113,7 +113,7 @@ export default defineComponent({
       },
     ]);
 
-    const rows = computed(() => store.state.countries);
+    const rows = computed(() => store.state.countries.countries);
     const isLoading = computed(() => store.state.shared.isLoading);
 
     // const pagination = ref({

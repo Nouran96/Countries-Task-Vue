@@ -7,7 +7,7 @@
         leave-active-class="animated fadeOut"
       >
         <q-card class="q-pa-lg card col-6">
-          <h5 class="greeting" v-if="!isLoading">
+          <h5 class="greeting" v-if="!isLoading || submittingForm">
             {{ emptyCountry ? "Add Country" : `Edit "${country.name}"` }}
           </h5>
           <q-form
@@ -93,7 +93,7 @@ export default defineComponent({
     });
 
     const isLoading = computed(() => store.state.shared.isLoading);
-    const country = computed(() => store.state.selectedCountry);
+    const country = computed(() => store.state.countries.selectedCountry);
     const emptyCountry = computed(
       () => Object.keys(country.value).length === 0
     );
@@ -123,11 +123,19 @@ export default defineComponent({
       { deep: true }
     );
 
-    watch(country, () => {
-      if (Object.keys(country.value).length) {
-        model.value = country.value;
-      }
-    });
+    watch(
+      country,
+      () => {
+        if (Object.keys(country.value).length > 0) {
+          model.value = {
+            ...country.value,
+            population: `${country.value.population}`,
+            numberOfStates: `${country.value.numberOfStates}`,
+          };
+        }
+      },
+      { deep: true }
+    );
 
     return {
       myForm,

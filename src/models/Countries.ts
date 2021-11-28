@@ -3,3 +3,8 @@ export interface Country {
   population: number;
   numberOfStates: number;
 }
+
+export interface CountriesState {
+  countries: Array<Country> | [];
+  selectedCountry: Country | Record<string, never>;
+}

@@ -61,7 +61,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const isLoading = computed(() => store.state.shared.isLoading);
-    const country = computed(() => store.state.selectedCountry);
+    const country = computed(() => store.state.countries.selectedCountry);
 
     const getCountry = () =>
       store.dispatch("getCountry", { name: route.params.name });
