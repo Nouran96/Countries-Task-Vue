@@ -18,5 +18,6 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "vue/attributes-order": "off",
     "vue/require-prop-types": "off",
+    "@typescript-eslint/no-var-requires": "off",
   },
 };
